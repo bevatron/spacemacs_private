@@ -35,6 +35,8 @@
     diff-mode
     cc-mode
     tramp
+    magit
+    helm
     )
   "The list of Lisp packages required by the personal-setting layer.
 
@@ -89,6 +91,19 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
 
 (defun personal-setting/post-init-diff-hl()
   (setq diff-hl-side 'left)
+  )
+
+(defun personal-setting/post-init-helm()
+  (spacemacs/set-leader-keys
+    "fw"   'helm-find
+    )
+  )
+
+(defun personal-setting/post-init-magit()
+  (unbind-key "M-1" 'magit-mode-map)
+  (unbind-key "M-2" 'magit-mode-map)
+  (unbind-key "M-3" 'magit-mode-map)
+  (unbind-key "M-4" 'magit-mode-map)
   )
 
 (defun personal-setting/post-init-cc-mode ()
