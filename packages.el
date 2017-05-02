@@ -96,12 +96,14 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
   (spacemacs/set-leader-keys
     "fw"   'helm-find
     )
+  (setq helm-buffer-max-length 'nil)
   )
 
 (defun personal-setting/post-init-cc-mode ()
   ;; C/C++ setting
   (add-hook 'c-mode-hook 'MyCHook)
   (add-hook 'c++-mode-hook 'MyCHook)
+  (add-hook 'java-mode-hook 'MyCHook)
   (setq which-func-modes '(c++-mode c-mode org-mode java-mode))
 
   ;; man page setting
