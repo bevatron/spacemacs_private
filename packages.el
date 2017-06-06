@@ -36,6 +36,7 @@
     cc-mode
     tramp
     helm
+    evil
     )
   "The list of Lisp packages required by the personal-setting layer.
 
@@ -108,6 +109,10 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
          (steps (floor offset c-basic-offset)))
     (* (max steps 1)
        c-basic-offset)))
+
+(defun personal-setting/post-init-evil ()
+  (setq-default evil-escape-key-sequence "gq")
+  )
 
 (defun personal-setting/post-init-cc-mode ()
   ;; C/C++ setting
