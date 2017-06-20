@@ -37,6 +37,7 @@
     tramp
     helm
     evil
+    spaceline
     )
   "The list of Lisp packages required by the personal-setting layer.
 
@@ -77,6 +78,8 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
   (setq fci-rule-width 5)
   (fci-mode)
 
+  (which-func-mode)
+
   "setup shared by all languages (java/groovy/c++ ...)"
   (setq c-basic-offset 4)
   (setq tab-width 4)
@@ -99,6 +102,12 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
     )
   (setq helm-buffer-max-length 'nil)
   (setq helm-ag--ignore-case 't)
+  ;; rebind tab to do persistent action
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+  ;; make TAB works in terminal
+  (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+  ;; list actions using C-z
+  (define-key helm-map (kbd "C-z") 'helm-select-action)
   )
 
 (defun c-lineup-arglist-tabs-only (ignored)
@@ -112,6 +121,10 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
 
 (defun personal-setting/post-init-evil ()
   (setq-default evil-escape-key-sequence "gq")
+  )
+
+(defun personal-setting/post-init-spaceline ()
+  (spaceline-toggle-version-control-off)
   )
 
 (defun personal-setting/post-init-cc-mode ()
