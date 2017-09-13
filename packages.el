@@ -80,9 +80,12 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
 
   (which-func-mode)
 
-  "setup shared by all languages (java/groovy/c++ ...)"
+  ;; "setup shared by all languages (java/groovy/c++ ...)"
   (setq c-basic-offset 4)
   (setq tab-width 4)
+
+  (c-set-offset 'innamespace 0)
+  (c-set-offset 'substatement-open 0)
 
   (setq comment-start "/* " comment-end " */")
   ;;  (c-set-offset 'case-label '+)
@@ -97,17 +100,19 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
   )
 
 (defun personal-setting/post-init-helm()
-  (spacemacs/set-leader-keys
-    "fw"   'helm-find
+  (progn
+    (spacemacs/set-leader-keys
+      "fw"   'helm-find
+      )
+    (setq helm-buffer-max-length 'nil)
+    (setq helm-ag-command-option "-i")
+    ;; ;; rebind tab to do persistent action
+    ;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+    ;; ;; make TAB works in terminal
+    ;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
+    ;; ;; list actions using C-z
+    ;; (define-key helm-map (kbd "C-z") 'helm-select-action)
     )
-  (setq helm-buffer-max-length 'nil)
-  (setq helm-ag--ignore-case 't)
-  ;; rebind tab to do persistent action
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-  ;; make TAB works in terminal
-  (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
-  ;; list actions using C-z
-  (define-key helm-map (kbd "C-z") 'helm-select-action)
   )
 
 (defun c-lineup-arglist-tabs-only (ignored)
@@ -129,32 +134,37 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
 
 (defun personal-setting/post-init-cc-mode ()
   ;; C/C++ setting
-  (add-hook 'c-mode-hook 'MyCHook)
-  (add-hook 'c++-mode-hook 'MyCHook)
-  (add-hook 'java-mode-hook 'MyCHook)
-  (setq which-func-modes '(c++-mode c-mode org-mode java-mode))
+  (progn
+   (add-hook 'c-mode-hook 'MyCHook)
+   (add-hook 'c++-mode-hook 'MyCHook)
+   (add-hook 'java-mode-hook 'MyCHook)
+   (setq which-func-modes '(c++-mode c-mode org-mode java-mode))
 
-  ;; man page setting
-  (setenv "MANWIDTH" "72")
+   ;; man page setting
+   (setenv "MANWIDTH" "72")
 
-  (c-add-style
-   "linux-tabs-only"
-   '("linux" (c-offsets-alist
-              (arglist-cont-nonempty
-               c-lineup-gcc-asm-reg
-               c-lineup-arglist-tabs-only))))
+   (setq-default dotspacemacs-configuration-layers
+                 '((c-c++ :variables
+                          c-c++-default-mode-for-headers 'c++-mode)))
 
-  ;; gitgutter
-  ;;(setq git-gutter-fr+-side 'left-fringe)
+   (c-add-style
+    "linux-tabs-only"
+    '("linux" (c-offsets-alist
+               (arglist-cont-nonempty
+                c-lineup-gcc-asm-reg
+                c-lineup-arglist-tabs-only))))
 
-  ;; show line number
-  ;;(setq-default dotspacemacs-line-numbers 't)
+   (setq-default dotspacemacs-configuration-layers
+                 '((c-c++ :variables
+                          c-c++-default-mode-for-headers 'c++-mode)))
+   ;; gitgutter
+   ;; (setq git-gutter-fr+-side 'left-fringe)
 
-  ;; C-C++
-  (setq-default dotspacemacs-configuration-layers
-                '((c-c++ :variables
-                         c-c++-default-mode-for-headers 'c++-mode)))
-  ;; (editorconfig-mode 1)
+   ;; show line number
+   ;;(setq-default dotspacemacs-line-numbers 't)
+
+   ;; (editorconfig-mode 1)
+  )
   )
 
 (defun personal-setting/init-tramp ()
