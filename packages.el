@@ -38,6 +38,7 @@
     helm
     evil
     spaceline
+    whitespace
     )
   "The list of Lisp packages required by the personal-setting layer.
 
@@ -165,6 +166,34 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
 
    ;; (editorconfig-mode 1)
   )
+  )
+
+(defun personal-setting/post-init-whitespace ()
+  (spacemacs|use-package-add-hook whitespace
+    :post-config
+    ;; set whitespace mode
+    (progn
+      (message "set white space mode")
+      (setq-default whitespace-style (quote (face tabs spaces indentation tab-mark space-mark trailing)))
+
+      (message "set white space mode after style")
+      (set-face-attribute 'whitespace-space  nil :background nil :foreground "gray20")
+      (set-face-attribute 'whitespace-tab  nil :background nil :foreground "gray20")
+      (set-face-attribute 'whitespace-hspace  nil :background nil :foreground "gray20")
+      (set-face-attribute 'whitespace-indentation nil :background nil :foreground "green")
+      (set-face-attribute 'whitespace-trailing nil :background nil :foreground "red")
+      (message "set white space mode after face")
+
+      (setq whitespace-display-mappings
+            ;; all numbers are unicode codepoint in decimal. e.g. (insert-char 182 1)
+            '(
+              (space-mark 32 [183] [46]) ; SPACE 32 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
+              (newline-mark 10 [9166 10]) ; LINE FEED,
+              (tab-mark 9 [8614 9] [92 9]) ; tab
+              ))
+      (message "set white space mode after display mapping")
+      )
+    )
   )
 
 (defun personal-setting/init-tramp ()
