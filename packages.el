@@ -33,6 +33,8 @@
   '(
     diff-hl
     diff-mode
+    git-gutter
+    git-gutter+
     cc-mode
     tramp
     helm
@@ -97,7 +99,7 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
   )
 
 (defun personal-setting/post-init-diff-hl()
-  (setq diff-hl-side 'left)
+  ;; (setq diff-hl-side 'right)
   )
 
 (defun personal-setting/post-init-helm()
@@ -132,6 +134,26 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
 (defun personal-setting/post-init-spaceline ()
   (spaceline-toggle-version-control-off)
   )
+
+(defun c-indent-two-line-block (langelem)
+  "Indent a two line block `c-basic-offset' extra.
+E.g.:
+
+if (n > 0)                 if (n > 0)
+    {m+=n; n=0;}    <->    {               <- c-indent-one-line-block
+<--> c-basic-offset            m+=n; n=0;
+                           }
+
+The block may use any kind of parenthesis character.  nil is returned
+if the line doesn't start with a one line block, which makes the
+
+
+Work with: Almost all syntactic symbols, but most useful on *-open."
+  (save-excursion
+    (vector (+ (c-langelem-col langelem) (* c-basic-offset 2)))
+    )
+  )
+
 
 (defun personal-setting/post-init-cc-mode ()
   ;; C/C++ setting
@@ -177,9 +199,9 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
       (setq-default whitespace-style (quote (face tabs spaces indentation tab-mark space-mark trailing)))
 
       (message "set white space mode after style")
-      (set-face-attribute 'whitespace-space  nil :background nil :foreground "gray20")
-      (set-face-attribute 'whitespace-tab  nil :background nil :foreground "gray20")
-      (set-face-attribute 'whitespace-hspace  nil :background nil :foreground "gray20")
+      (set-face-attribute 'whitespace-space  nil :background nil :foreground "gray50")
+      (set-face-attribute 'whitespace-tab  nil :background nil :foreground "gray50")
+      (set-face-attribute 'whitespace-hspace  nil :background nil :foreground "gray50")
       (set-face-attribute 'whitespace-indentation nil :background nil :foreground "green")
       (set-face-attribute 'whitespace-trailing nil :background nil :foreground "red")
       (message "set white space mode after face")
@@ -193,6 +215,18 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
               ))
       (message "set white space mode after display mapping")
       )
+    )
+  )
+
+(defun personal-setting/post-init-git-gutter ()
+  (progn
+    (setq git-gutter:modified-sign "=")
+    )
+  )
+
+(defun personal-setting/post-init-git-gutter+ ()
+  (progn
+    (setq git-gutter+-modified-sign "=")
     )
   )
 
