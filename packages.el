@@ -36,6 +36,7 @@
     git-gutter
     git-gutter+
     cc-mode
+    (python :location built-in)
     tramp
     helm
     evil
@@ -92,6 +93,14 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
 
   (setq comment-start "/* " comment-end " */")
   ;;  (c-set-offset 'case-label '+)
+  )
+
+(defun MyPythonHook ()
+  (setq fci-rule-column '80)
+  (setq fci-rule-width 5)
+  (fci-mode)
+
+  (which-func-mode)
   )
 
 (defun personal-setting/post-init-diff-mode ()
@@ -154,6 +163,11 @@ Work with: Almost all syntactic symbols, but most useful on *-open."
     )
   )
 
+(defun personal-setting/post-init-python ()
+  (progn
+    (add-hook 'python-mode-hook 'MyPythonHook)
+    )
+  )
 
 (defun personal-setting/post-init-cc-mode ()
   ;; C/C++ setting
