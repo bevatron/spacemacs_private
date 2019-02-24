@@ -35,6 +35,7 @@
     diff-mode
     git-gutter
     git-gutter+
+    display-line-numbers
     cc-mode
     (python :location built-in)
     tramp
@@ -259,6 +260,14 @@ Work with: Almost all syntactic symbols, but most useful on *-open."
                    (cons "." "~/.emacs.d/backups/"))
       (setq tramp-backup-directory-alist backup-directory-alist)
       )
+    )
+  )
+
+(defun personal-setting/post-init-display-line-numbers ()
+  (progn
+    (set-face-attribute 'line-number nil :height 90)
+    (set-face-attribute 'line-number-current-line nil :height 90)
+    (message "set display-line-numbers font")
     )
   )
 
