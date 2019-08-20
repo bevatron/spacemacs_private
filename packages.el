@@ -43,6 +43,7 @@
     evil
     spaceline
     whitespace
+    (text-mode :location built-in)
     )
   "The list of Lisp packages required by the personal-setting layer.
 
@@ -83,11 +84,35 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
   (setq fci-rule-width 5)
   (fci-mode)
 
+  (whitespace-mode)
+
   (which-func-mode)
 
   ;; "setup shared by all languages (java/groovy/c++ ...)"
-  (setq c-basic-offset 4)
-  (setq tab-width 4)
+  (setq c-basic-offset 8)
+  (setq tab-width 8)
+  (setq indent-tabs-mode t)
+
+  (lsp)
+
+  (c-set-offset 'innamespace 0)
+  (c-set-offset 'substatement-open 0)
+
+  (setq comment-start "/* " comment-end " */")
+  ;;  (c-set-offset 'case-label '+)
+  )
+
+(defun MyTextHook ()
+  (setq fci-rule-column '80)
+  (setq fci-rule-width 5)
+  (fci-mode)
+
+  (whitespace-mode)
+
+  ;; "setup shared by all languages (java/groovy/c++ ...)"
+  (setq c-basic-offset 8)
+  (setq tab-width 8)
+  (setq indent-tabs-mode t)
 
   (c-set-offset 'innamespace 0)
   (c-set-offset 'substatement-open 0)
@@ -106,6 +131,13 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
 
 (defun personal-setting/post-init-diff-mode ()
   (evil-set-initial-state 'diff-mode 'normal)
+  )
+
+(defun personal-setting/init-text-mode ()
+  (progn
+    (add-hook 'text-mode-hook 'MyTextHook)
+    (add-to-list 'auto-mode-alist '("\\.tc\\'" . text-mode))
+    )
   )
 
 (defun personal-setting/post-init-diff-hl()
@@ -181,9 +213,9 @@ Work with: Almost all syntactic symbols, but most useful on *-open."
    ;; man page setting
    (setenv "MANWIDTH" "72")
 
-   (setq-default dotspacemacs-configuration-layers
-                 '((c-c++ :variables
-                          c-c++-default-mode-for-headers 'c++-mode)))
+   ;; (setq-default dotspacemacs-configuration-layers
+   ;;               '((c-c++ :variables
+   ;;                        c-c++-default-mode-for-headers 'c++-mode)))
 
    (c-add-style
     "linux-tabs-only"
@@ -192,9 +224,9 @@ Work with: Almost all syntactic symbols, but most useful on *-open."
                 c-lineup-gcc-asm-reg
                 c-lineup-arglist-tabs-only))))
 
-   (setq-default dotspacemacs-configuration-layers
-                 '((c-c++ :variables
-                          c-c++-default-mode-for-headers 'c++-mode)))
+   ;; (setq-default dotspacemacs-configuration-layers
+   ;;               '((c-c++ :variables
+   ;;                        c-c++-default-mode-for-headers 'c++-mode)))
    ;; gitgutter
    ;; (setq git-gutter-fr+-side 'left-fringe)
 
@@ -214,11 +246,11 @@ Work with: Almost all syntactic symbols, but most useful on *-open."
       (setq-default whitespace-style (quote (face tabs spaces indentation tab-mark space-mark trailing)))
 
       (message "set white space mode after style")
-      (set-face-attribute 'whitespace-space  nil :background nil :foreground "gray50")
-      (set-face-attribute 'whitespace-tab  nil :background nil :foreground "gray50")
-      (set-face-attribute 'whitespace-hspace  nil :background nil :foreground "gray50")
-      (set-face-attribute 'whitespace-indentation nil :background nil :foreground "green")
-      (set-face-attribute 'whitespace-trailing nil :background nil :foreground "red")
+      (set-face-attribute 'whitespace-space  nil :background nil :foreground "gray30")
+      (set-face-attribute 'whitespace-tab  nil :background nil :foreground "gray30")
+      (set-face-attribute 'whitespace-hspace  nil :background nil :foreground "gray30")
+      (set-face-attribute 'whitespace-indentation nil :background nil :foreground "gray30")
+      (set-face-attribute 'whitespace-trailing nil :background "gray" :foreground "red")
       (message "set white space mode after face")
 
       (setq whitespace-display-mappings
