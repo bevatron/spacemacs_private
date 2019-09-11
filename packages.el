@@ -100,24 +100,28 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
 
   (setq comment-start "/* " comment-end " */")
   ;;  (c-set-offset 'case-label '+)
+  (c-toggle-comment-style -1)
   )
 
 (defun MyTextHook ()
-  (setq fci-rule-column '80)
-  (setq fci-rule-width 5)
+  (setq-local fci-rule-column '80)
+  (setq-local fci-rule-width 5)
   (fci-mode)
 
   (whitespace-mode)
 
   ;; "setup shared by all languages (java/groovy/c++ ...)"
-  (setq c-basic-offset 8)
-  (setq tab-width 8)
-  (setq indent-tabs-mode t)
-
+  (setq-local c-basic-offset 8)
+  (setq-local tab-width 8)
+  (setq-local indent-tabs-mode t)
+  ;; (setq indent-tabs-mode nil)
   (c-set-offset 'innamespace 0)
   (c-set-offset 'substatement-open 0)
 
-  (setq comment-start "/* " comment-end " */")
+  ;; (setq comment-start "/* " comment-end " */")
+  (setq-local comment-start "// ")
+  (setq-local comment-end "")
+  (setq-local indent-line-function (quote indent-to-left-margin))
   ;;  (c-set-offset 'case-label '+)
   )
 
@@ -125,6 +129,8 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
   (setq fci-rule-column '80)
   (setq fci-rule-width 5)
   (fci-mode)
+
+  (setq indent-tabs-mode nil)
 
   (which-func-mode)
   )
@@ -137,6 +143,8 @@ t of the form (PACKAGE KEYS...), where PACKAGE is the
   (progn
     (add-hook 'text-mode-hook 'MyTextHook)
     (add-to-list 'auto-mode-alist '("\\.tc\\'" . text-mode))
+    (add-to-list 'auto-mode-alist '("\\.ev\\'" . text-mode))
+    (add-to-list 'auto-mode-alist '("\\.conf\\'" . text-mode))
     )
   )
 
@@ -209,6 +217,8 @@ Work with: Almost all syntactic symbols, but most useful on *-open."
    (add-hook 'c++-mode-hook 'MyCHook)
    (add-hook 'java-mode-hook 'MyCHook)
    (setq which-func-modes '(c++-mode c-mode org-mode java-mode))
+   (if (version< "26.0" emacs-version)
+        (setq sp-escape-quotes-after-insert nil))
 
    ;; man page setting
    (setenv "MANWIDTH" "72")
@@ -217,12 +227,12 @@ Work with: Almost all syntactic symbols, but most useful on *-open."
    ;;               '((c-c++ :variables
    ;;                        c-c++-default-mode-for-headers 'c++-mode)))
 
-   (c-add-style
-    "linux-tabs-only"
-    '("linux" (c-offsets-alist
-               (arglist-cont-nonempty
-                c-lineup-gcc-asm-reg
-                c-lineup-arglist-tabs-only))))
+   ;; (c-add-style
+   ;;  "linux-tabs-only"
+   ;;  '("linux" (c-offsets-alist
+   ;;             (arglist-cont-nonempty
+   ;;              c-lineup-gcc-asm-reg
+   ;;              c-lineup-arglist-tabs-only))))
 
    ;; (setq-default dotspacemacs-configuration-layers
    ;;               '((c-c++ :variables
